@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cytracon
+ *
+ * This source file is subject to the Cytracon Software License, which is available at https://www.cytracon.com/license.
+ * Do not edit or add to this file if you wish to upgrade the to newer versions in the future.
+ * If you wish to customize this module for your needs.
+ * Please refer to https://www.cytracon.com for more information.
+ *
+ * @category  BlueFormBuilder
+ * @package   BlueFormBuilder_ConditionalLogic
+ * @copyright Copyright (C) 2019 Cytracon (https://www.cytracon.com)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="BlueFormBuilder\Core\Ui\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="conditional" xsi:type="array">
+                    <item name="class" xsi:type="string">BlueFormBuilder\ConditionalLogic\Ui\DataProvider\Form\Form\Modifier\Conditional</item>
+                    <item name="sortOrder" xsi:type="number">80</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

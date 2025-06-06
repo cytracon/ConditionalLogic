@@ -1,0 +1,21 @@
+"Conditional Form Fields","Conditional Form Fields"
+"Add New Logic","Add New Logic"
+"New Condition","New Condition"
+"Add Condition Row","Add Condition Row"
+"Field Condition","Field Condition"
+(field),(field)
+Trigger,Trigger
+Value,Value
+Aggregator,Aggregator
+"Add Action Row","Add Action Row"
+Action,Action
+(action),(action)
+"Field Action","Field Action"
+"Field Apply","Field Apply"
+And,And
+Or,Or
+"show fields","show fields"
+"hide fields","hide fields"
+"send email to","send email to"
+"redirect to","redirect to"
+"set value of","set value of"

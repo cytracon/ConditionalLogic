@@ -1,0 +1,284 @@
+<?php
+$dataHelper  = $this->helper('BlueFormBuilder\Core\Helper\Data');
+$id          = time() . uniqid();
+$actions     = $this->getActions();
+$aggregators = $this->getAggregators();
+$operators   = $dataHelper->getOperatorOptions();
+?>
+<div id="<?= $id ?>" clas="bfb-logic" ng-controller="logicCtrl">
+	<div class="bfb-logic-header">
+		<div class="bfb-logic-header-left">
+			<span><?= __('Conditions') ?></span>
+			<i class="fa fa-arrow-down" aria-hidden="true"></i>
+		</div>
+		<div class="bfb-logic-header-right">
+			<span><?= __('Actions') ?></span>
+			<i class="fa fa-arrow-down" aria-hidden="true"></i>
+		</div>
+	</div>
+	<div class="bfb-logic-box" style="display: none">
+		<div ng-repeat="logic in Logic track by $index" class="bfb-logic-row">
+			<div class="bfb-logic-col bfb-logic-text">
+				<?= __('if') ?>
+			</div>
+			<div class="bfb-logic-col col-left">
+				<div class="bfb-logic-col-inner" ng-if="logic.conditions.length">
+					<div class="bfb-logic-col-item" ng-repeat="condition in logic.conditions track by $index">
+						<div class="bfb-logic-field field">
+							<select ng-model="condition.field" class="admin__control-select">
+								<option value="">(field)</option>
+								<option ng-repeat='field in formFields' value="{{field.value}}">{{ field.label }}</option>
+							</select>
+						</div>
+						<div class="bfb-logic-field operator">
+							<select ng-model="condition.operator" class="admin__control-select">
+								<option value="">(trigger)</option>
+								<?php foreach ($operators as $operator) { ?>
+									<option value="<?= $operator['value'] ?>"><?= $operator['label'] ?></option>	
+								<?php } ?>
+							</select>
+						</div>
+						<div class="bfb-logic-field value">
+							<input type="text" class="admin__control-text" ng-model="condition.value" ng-hide="condition.operator=='et'||condition.operator=='net'">
+						</div>
+						<div class="bfb-logic-field is_delete" ng-click="removeCondition($parent.$index, $index)">
+							<button class="action-delete"></button>
+						</div>
+						<div class="bfb-logic-field aggregator">
+							<select ng-model="logic.aggregator" class="admin__control-select">
+								<?php foreach ($aggregators as $aggregator) { ?>
+									<option value="<?= $aggregator['value'] ?>"><?= $aggregator['label'] ?></option>	
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="bfb-logic-col-action">
+					<button ng-click="addCondition($index)">
+						<span><?= __('add condition row') ?></span>
+					</button>
+				</div>
+			</div>
+			<div class="bfb-logic-col bfb-logic-text">
+				<?= __('then') ?>
+			</div>
+			<div class="bfb-logic-col col-right">
+				<div class="bfb-logic-col-inner" ng-if="logic.actions.length">
+					<div class="bfb-logic-col-item" ng-repeat="action in logic.actions track by $index">
+						<div class="bfb-logic-field" style="width: 30%;padding-right: 1%;">
+							<select ng-model='action.action' class="admin__control-select">
+								<option value="">(action)</option>
+								<?php foreach ($actions as $action) { ?>
+									<option value="<?= $action['value'] ?>"><?= $action['label'] ?></option>	
+								<?php } ?>
+							</select>
+							<select ng-model="action.action_field" class="admin__control-select" ng-if="action.action=='svo'" style="margin-top: 3px;">
+								<option value="">(field)</option>
+								<option ng-repeat='field in formFields' value="{{field.value}}">{{ field.label }}</option>
+							</select>
+						</div>
+						<div class="bfb-logic-field" style="width: 68%">
+							<ui-select multiple ng-model="action.apply_field" theme="bootstrap" class="mgz__control-uiselect" close-on-select="false" search-enabled="true" ng-if="action.action=='sf' || action.action=='hf'">
+								<ui-select-match>{{ $item.label }}</ui-select-match>
+								<ui-select-choices position='down' repeat="option['value'] as option in allFields | filter: $select.search">
+									<div ng-bind-html="trustAsHtml(option['label'] | highlight: $select.search)"></div>
+								</ui-select-choices>
+							</ui-select>
+							<input type="text" class="admin__control-text" ng-model="action.value" ng-if="action.action=='set' || action.action=='rt' || action.action=='svo'">
+						</div>
+						<div class="bfb-logic-field is_delete" ng-click="removeAction($parent.$index, $index)">
+							<button class="action-delete"></button>
+						</div>
+						<div class="bfb-logic-field sign-and">&</div>
+					</div>
+				</div>
+				<div class="bfb-logic-col-action">
+					<button ng-click="addAction($index)">
+						<span><?= __('add action row') ?></span>
+					</button>
+				</div>
+			</div>
+			<div class="bfb-logic-col" ng-click="removeLogic($index)" style="width: 1%;">
+				<button class="action-delete"></button>
+			</div>
+		</div>
+	</div>
+	<div class="bfb-logic-footer">
+		<button ng-click='addLogic()'><span><?= __('Add New Logic') ?></span></button>
+	</div>
+</div>
+<script type="text/javascript">
+	require([
+		'jquery',
+		'underscore',
+		'angular',
+		'uiSelect'
+		], function($, _, angular) {
+
+		function flattenCollection(array, separator, created) {
+			var i = 0,
+			length,
+			childCollection;
+
+			array = _.compact(array);
+			length = array.length;
+			created = created || [];
+
+			for (i; i < length; i++) {
+				created.push(array[i]);
+
+				if (array[i].hasOwnProperty(separator)) {
+					childCollection = array[i][separator];
+					delete array[i][separator];
+					flattenCollection.call(this, childCollection, separator, created);
+				}
+			}
+
+			return created;
+		}
+
+		function setProperty(array, separator, level, path) {
+			var i = 0,
+			length,
+			nextLevel,
+			nextPath;
+
+			array = _.compact(array);
+			length = array.length;
+			level = level || 0;
+			path = path || '';
+
+			for (i; i < length; i++) {
+				if (array[i]) {
+					_.extend(array[i], {
+						level: level,
+						path: path
+					});
+				}
+
+				if (array[i].hasOwnProperty(separator)) {
+					nextLevel = level + 1;
+					nextPath = path ? path + '.' + array[i].label : array[i].label;
+					setProperty.call(this, array[i][separator], separator, nextLevel, nextPath);
+				}
+			}
+
+			return array;
+		}
+
+		function parseOptions(nodes) {
+			var caption,
+			value,
+			cacheNodes,
+			copyNodes;
+
+			nodes = setProperty(nodes, 'optgroup');
+			copyNodes = JSON.parse(JSON.stringify(nodes));
+			cacheNodes = flattenCollection(copyNodes, 'optgroup');
+
+			nodes = _.map(nodes, function (node) {
+				value = node.value;
+
+				if (value == null || value === '') {
+					if (_.isUndefined(caption)) {
+						caption = node.label;
+					}
+				} else {
+					return node;
+				}
+			});
+
+			return {
+				options: _.compact(nodes),
+				cacheOptions: {
+					plain: _.compact(cacheNodes),
+					tree: _.compact(nodes)
+				}
+			};
+		}
+
+	    var app = angular.module("<?= $id ?>", ['ui.select']);
+
+	    app.controller("logicCtrl", ['$rootScope', '$scope', '$sce', function($rootScope, $scope, $sce) {
+			$scope.Logic      = $('#bfb-logic').val() ? angular.fromJson($('#bfb-logic').val()) : [];
+			$scope.formFields = [];
+			if (_.isString($scope.Logic)) $scope.Logic = [];
+
+	     	$scope.loadFields = function($apply = false) {
+				var fields          = parseOptions(_.clone(window['bfb']['elements']));
+				var builderElements = window['bfb']['builderElements'];
+				if (builderElements) {
+					var formFields = [];
+					var allFields  = [];
+		     		_.each(fields.cacheOptions.plain, function(_element) {
+		     			var builderElement = _.findWhere(builderElements, {type: _element['type']});
+		     			if (builderElement.control) {
+		     				formFields.push(_element);
+		     			}
+		     			allFields.push(_element);
+		     		});
+		     		if ($apply) {
+			     		$scope.$apply(function() {
+							$scope.formFields = formFields;
+							$scope.allFields  = allFields;
+			     		});
+			     	} else {
+						$scope.formFields = formFields;
+						$scope.allFields  = allFields;
+			     	}
+		     	}
+	     	}
+	     	$scope.loadFields();
+
+			$(document).on('loadBuilderElements', function() {
+				$scope.loadFields();
+			});
+
+			$scope.Builder        = [];
+			$scope.Builder.Config = {};
+			$scope.addLogic = function() {
+				let row = {
+					aggregator: 'and',
+					conditions: [],
+					actions: []
+				}
+				$scope.Logic.push(row);
+			}
+
+			$scope.removeLogic = function($index) {
+				$scope.Logic.splice($index, 1);
+			}
+
+			$scope.addCondition = function($index) {
+				$scope.Logic[$index]['conditions'].push({});
+			}
+
+			$scope.removeCondition = function($parent, $index) {
+				$scope.Logic[$parent]['conditions'].splice($index, 1);
+			}
+
+			$scope.addAction = function($index) {
+				$scope.Logic[$index]['actions'].push({});
+			}
+
+			$scope.removeAction = function($parent, $index) {
+				$scope.Logic[$parent]['actions'].splice($index, 1);
+			}
+
+			$scope.trustAsHtml = function(value) {
+				return $sce.trustAsHtml(value);
+			};
+
+			$scope.$watch('Logic', function(model) {
+				console.log(angular.toJson(model));
+				$('#bfb-logic').val(angular.toJson(model));
+				$('#bfb-logic').trigger('change');
+			}, true);
+		}]);
+
+	    require(['domReady!'], function (document) {
+	     	angular.bootstrap(document.getElementById('<?= $id ?>'), ['<?= $id ?>'], {});
+	     	$('.bfb-logic-box').show();
+	    });
+	 });
+	</script>

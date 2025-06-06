@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cytracon
+ *
+ * This source file is subject to the Cytracon Software License, which is available at https://cytracon.com/license/.
+ * Do not edit or add to this file if you wish to upgrade the to newer versions in the future.
+ * If you wish to customize this module for your needs.
+ * Please refer to https://www.cytracon.com for more information.
+ *
+ * @category  Cytracon
+ * @package   BlueFormBuilder_ConditionalLogic
+ * @copyright Copyright (C) 2022 Cytracon (https://cytracon.com)
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="mgz_blueformbuilder_form">
+        <column xsi:type="longtext" name="conditional" nullable="true" comment="Conditional"/>
+    </table>
+</schema>
