@@ -19,7 +19,7 @@ use Magento\Ui\Component\Form\Element\ActionDelete;
 use Magento\Ui\Component\Form\Element\DataType\Text;
 use Cytracon\UiBuilder\Data\Form\Element\Factory;
 use Cytracon\UiBuilder\Data\Form\Element\CollectionFactory;
-use \BlueFormBuilder\Core\Helper\Data as DataHelper;
+use \Cytracon\BlueFormBuilderCore\Helper\Data as DataHelper;
 
 class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModifier
 {
@@ -60,7 +60,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
     protected $registry;
 
     /**
-     * @var \BlueFormBuilder\Core\Helper\Data
+     * @var \Cytracon\BlueFormBuilderCore\Helper\Data
      */
     protected $dataHelper;
 
@@ -78,7 +78,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
      * @param Factory                           $factoryElement    
      * @param CollectionFactory                 $factoryCollection 
      * @param \Magento\Framework\Registry       $registry          
-     * @param \BlueFormBuilder\Core\Helper\Data $dataHelper        
+     * @param \Cytracon\BlueFormBuilderCore\Helper\Data $dataHelper        
      */
     public function __construct(
         Factory $factoryElement,
@@ -86,7 +86,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
         \Magento\Framework\Registry $registry,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Cytracon\Core\Helper\Data $coreHelper,
-        \BlueFormBuilder\Core\Helper\Data $dataHelper
+        \Cytracon\BlueFormBuilderCore\Helper\Data $dataHelper
     ) {
         parent::__construct($factoryElement, $factoryCollection);
         $this->layoutFactory = $layoutFactory;
@@ -96,7 +96,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
     }
 
     /**
-     * @return \BlueFormBuilder\Core\Model\Form
+     * @return \Cytracon\BlueFormBuilderCore\Model\Form
      */
     public function getCurrentForm()
     {
