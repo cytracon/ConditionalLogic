@@ -14,6 +14,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'BlueFormBuilder_ConditionalLogic',
+    'Cytracon_ConditionalLogic',
     __DIR__
 );
