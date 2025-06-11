@@ -12,7 +12,7 @@
  * @copyright Copyright (C) 2019 Cytracon (https://www.cytracon.com)
  */
 
-namespace BlueFormBuilder\ConditionalLogic\Block\Adminhtml;
+namespace Cytracon\ConditionalLogic\Block\Adminhtml;
 
 class Logic extends \Magento\Backend\Block\Template
 {

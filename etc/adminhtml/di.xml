@@ -18,7 +18,7 @@
         <arguments>
             <argument name="modifiers" xsi:type="array">
                 <item name="conditional" xsi:type="array">
-                    <item name="class" xsi:type="string">BlueFormBuilder\ConditionalLogic\Ui\DataProvider\Form\Form\Modifier\Conditional</item>
+                    <item name="class" xsi:type="string">Cytracon\ConditionalLogic\Ui\DataProvider\Form\Form\Modifier\Conditional</item>
                     <item name="sortOrder" xsi:type="number">80</item>
                 </item>
             </argument>

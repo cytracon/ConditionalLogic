@@ -12,7 +12,7 @@
  * @copyright Copyright (C) 2019 Cytracon (https://www.cytracon.com)
  */
 
-namespace BlueFormBuilder\ConditionalLogic\Ui\DataProvider\Form\Form\Modifier;
+namespace Cytracon\ConditionalLogic\Ui\DataProvider\Form\Form\Modifier;
 
 use Magento\Ui\Component\Form\Fieldset;
 use Magento\Ui\Component\Form\Element\ActionDelete;
@@ -170,8 +170,8 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
                 'dataScope'         => static::GROUP_CONDITIONAL_NAME,
                 'additionalClasses' => 'admin__field-wide',
                 'sortOrder'         => 30,
-                'component'         => 'BlueFormBuilder_ConditionalLogic/js/logic',
-                'content'           => $this->layoutFactory->create()->createBlock('\BlueFormBuilder\ConditionalLogic\Block\Adminhtml\Logic')->setTemplate('BlueFormBuilder_ConditionalLogic::logic.phtml')->toHtml()
+                'component'         => 'Cytracon_ConditionalLogic/js/logic',
+                'content'           => $this->layoutFactory->create()->createBlock('\Cytracon\ConditionalLogic\Block\Adminhtml\Logic')->setTemplate('Cytracon_ConditionalLogic::logic.phtml')->toHtml()
             ]);
 
         return;
@@ -188,8 +188,8 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
         );
 
         $container1 = $this->addChildren(static::GROUP_CONDITIONAL_NAME, 'dynamicRows', [
-            'component'           => 'BlueFormBuilder_ConditionalLogic/js/conditional',
-            'template'            => 'BlueFormBuilder_Core/conditional',
+            'component'           => 'Cytracon_ConditionalLogic/js/conditional',
+            'template'            => 'Cytracon_BlueFormBuilderCore/conditional',
             'additionalClasses'   => 'admin__field-wide bfb-formbuilder-conditional',
             'deleteProperty'      => 'condition_delete',
             'deleteValue'         => '1',
@@ -291,7 +291,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
     {
         $config = [
             'addButtonLabel'      => __('Add Condition Row'),
-            'template'            => 'BlueFormBuilder_Core/conditional',
+            'template'            => 'Cytracon_BlueFormBuilderCore/conditional',
             'additionalClasses'   => 'bfb-formbuilder-conditional-layout-left',
             'deleteProperty'      => static::FIELD_IS_DELETE,
             'deleteValue'         => '1',
@@ -314,7 +314,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
 
                 $container2->addChildren(static::FIELD_FIELD_NAME, 'select', [
                     'label'             => __('Field Condition'),
-                    'component'         => 'BlueFormBuilder_Core/js/element/field',
+                    'component'         => 'Cytracon_BlueFormBuilderCore/js/element/field',
                     'additionalClasses' => 'bfb-conditional-field',
                     'sortOrder'         => 10,
                     'selectedPlaceholders' => [
@@ -378,7 +378,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
 
                 $container2->addChildren(static::FIELD_AGGREGATOR_NAME, 'select', [
                     'label'                => __('Aggregator'),
-                    'component'            => 'BlueFormBuilder_Core/js/element/aggregator',
+                    'component'            => 'Cytracon_BlueFormBuilderCore/js/element/aggregator',
                     'parentSelections'     => $elementId,
                     'sortOrder'            => 50,
                     'dataScope'            => static::FIELD_AGGREGATOR_NAME,
@@ -395,7 +395,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
     {
         $container1 = $parent->addChildren('actions', 'dynamicRows', [
             'addButtonLabel'      => __('Add Action Row'),
-            'template'            => 'BlueFormBuilder_Core/conditional',
+            'template'            => 'Cytracon_BlueFormBuilderCore/conditional',
             'additionalClasses'   => 'bfb-formbuilder-conditional-layout-right',
             'deleteProperty'      => static::FIELD_IS_DELETE,
             'deleteValue'         => '1',
@@ -459,7 +459,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
 
                     $container3->addChildren(static::FIELD_ACTION_FIELD_NAME, 'select', [
                         'label'                => __('Field Action'),
-                        'component'            => 'BlueFormBuilder_Core/js/element/field',
+                        'component'            => 'Cytracon_BlueFormBuilderCore/js/element/field',
                         'additionalClasses'    => 'bfb-conditional-field bfb-conditional-field-setvalue',
                         'sortOrder'            => 20,
                         'selectedPlaceholders' => [
@@ -493,7 +493,7 @@ class Conditional extends \Cytracon\UiBuilder\Ui\DataProvider\Form\AbstractModif
 
                     $container4->addChildren(static::FIELD_APPLY_FIELD_NAME, 'select', [
                         'label'                => __('Field Apply'),
-                        'component'            => 'BlueFormBuilder_Core/js/element/field',
+                        'component'            => 'Cytracon_BlueFormBuilderCore/js/element/field',
                         'additionalClasses'    => 'bfb-conditional-field-right bfb-conditional-field',
                         'sortOrder'            => 20,
                         'multiple'             => true,

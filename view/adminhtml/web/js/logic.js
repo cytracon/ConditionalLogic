@@ -10,7 +10,7 @@ define([
             cols: 15,
             rows: 2,
             template: 'ui/form/field',
-            elementTmpl: 'BlueFormBuilder_ConditionalLogic/form/element/logic'
+            elementTmpl: 'Cytracon_ConditionalLogic/form/element/logic'
         }
     });
 });
